@@ -1,0 +1,117 @@
+● Here's the complete list of all GODEL_GRAPH_* environment variables (54 total):
+
+  Server Configuration (4 vars)
+
+  | Variable              | Default     | Description                                       |
+  |-----------------------|-------------|---------------------------------------------------|
+  | GODEL_GRAPH_PORT      | 8088        | HTTP server port                                  |
+  | GODEL_GRAPH_HOST      | 0.0.0.0     | Server bind address                               |
+  | GODEL_GRAPH_NODE_ENV  | development | Node environment: development, production, test   |
+  | GODEL_GRAPH_LOG_LEVEL | info        | Log level: fatal, error, warn, info, debug, trace |
+
+  Repository Configuration (1 var)
+
+  | Variable               | Default | Description                                             |
+  |------------------------|---------|---------------------------------------------------------|
+  | GODEL_GRAPH_REPOS_ROOT | none    | Root directory containing repositories (warns if unset) |
+
+  Sourcegraph Integration (8 vars)
+
+  | Variable                               | Default               | Description                                            |
+  |----------------------------------------|-----------------------|--------------------------------------------------------|
+  | GODEL_GRAPH_SG_URL                     | none                  | Sourcegraph instance URL (e.g., http://localhost:7080) |
+  | GODEL_GRAPH_SG_TOKEN                   | none                  | Sourcegraph API access token                           |
+  | GODEL_GRAPH_SG_SERVE_HOST              | localhost             | Host/IP for serve-git (unused in code, doc only)       |
+  | GODEL_GRAPH_SG_SERVE_PORT              | 3434                  | Port for serve-git (unused in code, doc only)          |
+  | GODEL_GRAPH_SG_AUTO_SYNC_BEFORE_UPLOAD | true                  | Auto-trigger SG sync before SCIP upload                |
+  | GODEL_GRAPH_SG_AUTO_SYNC_WAIT_MS       | 5000                  | Wait time after triggering SG sync (ms)                |
+  | GODEL_GRAPH_SG_CONTAINER               | none                  | Sourcegraph container name for network sharing         |
+  | GODEL_GRAPH_SG_CONTAINER_ENDPOINT      | http://localhost:7080 | Endpoint for container network mode                    |
+
+  SCIP Upload Configuration (3 vars)
+
+  | Variable                         | Default | Description                                                   |
+  |----------------------------------|---------|---------------------------------------------------------------|
+  | GODEL_GRAPH_SRC_CLI_PATH         | none    | Path to local src-cli binary                                  |
+  | GODEL_GRAPH_SG_UPLOAD_USE_DOCKER | false   | Use standalone Docker for uploads                             |
+  | GODEL_GRAPH_SG_UPLOAD_ENDPOINT   | none    | Endpoint for standalone Docker upload (must not be localhost) |
+
+  SCIP Manager Configuration (12 vars)
+
+  | Variable                        | Default                    | Description                                  |
+  |---------------------------------|----------------------------|----------------------------------------------|
+  | GODEL_GRAPH_SCIP_ENABLED        | false                      | Enable SCIP automatic indexing manager       |
+  | GODEL_GRAPH_SCIP_CONCURRENCY    | 2                          | Number of concurrent indexing jobs           |
+  | GODEL_GRAPH_SCIP_MAX_AGE_HOURS  | 168                        | Hours before re-indexing (1 week)            |
+  | GODEL_GRAPH_SCIP_BRANCHES       | HEAD                       | Comma-separated branches to index            |
+  | GODEL_GRAPH_SCIP_INCLUDE        | none                       | Include repo glob patterns (comma-separated) |
+  | GODEL_GRAPH_SCIP_EXCLUDE        | none                       | Exclude repo glob patterns (comma-separated) |
+  | GODEL_GRAPH_SCIP_LANG_INCLUDE   | none                       | Include languages: ts,go,java,py             |
+  | GODEL_GRAPH_SCIP_LANG_EXCLUDE   | none                       | Exclude languages: ts,go,java,py             |
+  | GODEL_GRAPH_SCIP_SCHEDULE_CRON  | 0 * * * *                  | Cron schedule (hourly), or "off" to disable  |
+  | GODEL_GRAPH_SCIP_STATUS_PATH    | ./data/scip-status.json    | Path to status tracking file                 |
+  | GODEL_GRAPH_SCIP_LOG_DIR        | ./data/scip-logs           | Directory for indexing logs                  |
+  | GODEL_GRAPH_SCIP_WORKSPACE_HOST | /tmp/godel-scip-workspaces | Workspace path for Docker-in-Docker          |
+
+  SCIP Indexer Configuration (1 var)
+
+  | Variable                  | Default | Description                                                     |
+  |---------------------------|---------|-----------------------------------------------------------------|
+  | GODEL_GRAPH_SCIP_TS_INFER | true    | Auto-add --infer-tsconfig for JS projects without tsconfig.json |
+
+  LLM-Assisted Anchors (8 vars)
+
+  | Variable                             | Default | Description                                  |
+  |--------------------------------------|---------|----------------------------------------------|
+  | GODEL_GRAPH_ANCHOR_LLM_ENABLED       | false   | Enable LLM-assisted anchor extraction        |
+  | GODEL_GRAPH_ANCHOR_LLM_PROVIDER      | none    | Provider: openai, azure, ollama, vllm, other |
+  | GODEL_GRAPH_ANCHOR_LLM_ENDPOINT      | none    | LLM API endpoint URL                         |
+  | GODEL_GRAPH_ANCHOR_LLM_MODEL         | none    | Model identifier/name                        |
+  | GODEL_GRAPH_ANCHOR_LLM_TOKEN         | none    | Authentication token (if needed)             |
+  | GODEL_GRAPH_ANCHOR_LLM_TIMEOUT       | 16000   | Request timeout in milliseconds              |
+  | GODEL_GRAPH_ANCHOR_LLM_MAX_PROPOSALS | 10      | Maximum anchor proposals to request          |
+  | GODEL_GRAPH_ANCHOR_LLM_MAX_TOKENS    | 1000    | Maximum tokens for LLM response              |
+
+  Oracle Query Planning (6 vars)
+
+  | Variable                                 | Default | Description                             |
+  |------------------------------------------|---------|-----------------------------------------|
+  | GODEL_GRAPH_ORACLE_MAX_ANCHORS           | 24      | Maximum anchors to use in planning      |
+  | GODEL_GRAPH_ORACLE_MAX_QUERIES           | 20      | Maximum queries to generate             |
+  | GODEL_GRAPH_ORACLE_MAX_HOPS              | 16      | Maximum code intelligence hops to plan  |
+  | GODEL_GRAPH_ORACLE_MAX_REFS_PER_SYMBOL   | 15      | Maximum references per symbol (Stage 2) |
+  | GODEL_GRAPH_ORACLE_PLAN_CASE_INSENSITIVE | false   | Case-insensitive identifier matching    |
+  | GODEL_GRAPH_ORACLE_PLAN_PATTERN_TYPE     | regexp  | Pattern type: regexp or standard        |
+
+  Oracle Gather/Execution (11 vars)
+
+  | Variable                                      | Default               | Description                             |
+  |-----------------------------------------------|-----------------------|-----------------------------------------|
+  | GODEL_GRAPH_ORACLE_MAX_SNIPPETS               | 50                    | Maximum code snippets to collect        |
+  | GODEL_GRAPH_ORACLE_MAX_CHARS                  | 120000                | Maximum total characters in snippets    |
+  | GODEL_GRAPH_ORACLE_CTX_BEFORE                 | 20                    | Lines of context before target          |
+  | GODEL_GRAPH_ORACLE_CTX_AFTER                  | 20                    | Lines of context after target           |
+  | GODEL_GRAPH_ORACLE_MAX_GRAPH_NODES            | 500                   | Maximum nodes in sub-graph              |
+  | GODEL_GRAPH_ORACLE_MAX_GRAPH_EDGES            | 1500                  | Maximum edges in sub-graph              |
+  | GODEL_GRAPH_ORACLE_MAX_CROSS_REPOS            | 2                     | Maximum cross-repository links (unused) |
+  | GODEL_GRAPH_ORACLE_GATHER_CONCURRENCY         | 4                     | Concurrent hop execution                |
+  | GODEL_GRAPH_ORACLE_SG_TIMEOUT_MS              | 12000                 | Sourcegraph operation timeout (ms)      |
+  | GODEL_GRAPH_ORACLE_GATHER_INCLUDE_BREADCRUMBS | true                  | Include breadcrumbs in snippets         |
+  | GODEL_GRAPH_SG_URL                            | http://localhost:7080 | Reused from SG integration              |
+
+  Oracle Compose/Prompt (4 vars)
+
+  | Variable                           | Default     | Description                                 |
+  |------------------------------------|-------------|---------------------------------------------|
+  | GODEL_GRAPH_ORACLE_DEFAULT_K       | 12          | Default number of top snippets to include   |
+  | GODEL_GRAPH_ORACLE_REDACT          | true        | Enable secret redaction in snippets         |
+  | GODEL_GRAPH_ORACLE_REDACT_PATTERNS | (see below) | Pipe-separated regex patterns for redaction |
+  | (reuses ORACLE_MAX_CHARS)          | 120000      | Maximum characters (shared with gather)     |
+
+  Default redaction patterns:
+  AKIA[0-9A-Z]{16}|sgp_[0-9a-z]{16,}|sk-[A-Za-z0-9]{20,}|(?i)api[_-]?key\s*[:=]\s*[^\s"]+|(?i)secret\s*[:=]\s*[^\s"]+|(?i)password\s*[:=]\s*[^\s"]+
+
+  ---
+  Total: 54 environment variables
+
+  For complete documentation, see docs/CONFIG.md.
