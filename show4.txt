@@ -1,0 +1,114 @@
+Great question! Yes, several endpoints are perfect candidates for LLM tools. Here are the standouts:
+
+  Top Tier - Ready-Made for LLM Tools
+
+  1. /oracle/answer-prompt-content ⭐⭐⭐
+
+  Why: This is literally designed for LLM consumption
+  - Input: Natural language question + optional repoHint
+  - Output: Structured JSON with snippets, citations, guidelines
+  - Use case: "Give me code context to answer this question"
+  - Tool description: "Search codebase and gather relevant code snippets with citations"
+
+  2. /oracle/answer-prompt-fragment ⭐⭐⭐
+
+  Why: Returns ready-to-use text prompt
+  - Input: Question + format preference
+  - Output: Formatted text with code blocks and citations
+  - Use case: "Get a prompt fragment to prepend to my context"
+  - Tool description: "Get formatted code context for a coding question"
+
+  3. /anchors ⭐⭐
+
+  Why: Extracts code-related entities from text
+  - Input: Any text (error message, question, code snippet)
+  - Output: Structured anchors (symbols, files, errors, etc.)
+  - Use case: "What code elements are mentioned in this error?"
+  - Tool description: "Extract code symbols, files, and errors from text"
+
+  Second Tier - Useful but More Specialized
+
+  4. /sg/resolve_and_lookup ⭐⭐
+
+  Why: One-stop code intelligence lookup
+  - Input: Query + identifier
+  - Output: Definitions, references, implementations
+  - Use case: "Find where WebSocketServer is defined and used"
+  - Tool description: "Search for symbol and get code intelligence"
+
+  5. /sg/resolve_by_search ⭐
+
+  Why: Code search with structured results
+  - Input: Sourcegraph query
+  - Output: File matches with line numbers
+  - Use case: "Find all files containing WebSocket"
+  - Tool description: "Search codebase for patterns"
+
+  6. /scip/sync_now ⭐
+
+  Why: Trigger indexing on-demand
+  - Input: Optional force flag and repo filter
+  - Output: Indexing stats
+  - Use case: "Index this repository for code intelligence"
+  - Tool description: "Trigger SCIP indexing for code navigation"
+
+  The Clear Winners
+
+  If I had to pick 2-3 tools to implement first:
+
+  1. /oracle/answer-prompt-content - The flagship, does everything
+  2. /anchors - Simple, fast, broadly useful
+  3. /scip/sync_now - Enables the other tools to work
+
+  Composite workflow example:
+  LLM Tool 1: sync_now (ensure fresh indexes)
+  LLM Tool 2: answer-prompt-content (get code context)
+  → LLM uses the structured context to answer user's question
+
+  Would you like me to help create MCP tool definitions for these?
+
+> how about for simply fetching fragments, also, do we have anything that can list repos or repo contents ? 
+
+● Great question! Let me address both:
+
+  For Fetching Fragments
+
+  /oracle/answer-prompt-fragment ⭐⭐⭐
+  This is perfect for an LLM tool:
+
+  Simplicity:
+  - Input: Just a question (+ optional repoHint, k, format)
+  - Output: Ready-to-use text fragment with code blocks
+  - The LLM can literally copy-paste the fragment into its context
+
+  Tool definition would be:
+  Name: "get_code_context_fragment"
+  Description: "Get formatted code context for a question as text ready to include in prompts"
+  Parameters:
+    - question (required): The coding question
+    - repoHint (optional): Repository to focus on
+    - k (optional): Number of snippets (default 12)
+    - format (optional): "sections", "markdown", or "yaml"
+
+  For Listing Repos/Contents
+
+  We DON'T have these endpoints ❌
+
+  Currently missing:
+  - ❌ List all repositories
+  - ❌ List files in a repository
+  - ❌ Browse directory tree
+  - ❌ Get file metadata (size, last modified, etc.)
+
+  What we DO have:
+  - ✅ /sg/file_snippet - Fetch specific file content (requires exact repo/path/lines)
+  - ✅ /sg/resolve_by_search - Search for files (but requires a query)
+
+  Would you like me to add these?
+
+  Potential new endpoints:
+  1. GET /repos - List all repositories under REPOS_ROOT
+  2. GET /repos/:repo/tree - List files/directories in a repo
+  3. GET /repos/:repo/file - Get file content (simpler than /sg/file_snippet)
+
+  These would make great LLM tools for code exploration! Should I implement them?
